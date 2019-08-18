@@ -126,7 +126,7 @@ func (c *Conda) UpdateAndClean() error {
 	}
 
 	condaHome := filepath.Join(c.Stager.DepDir(), "conda")
-	args := append(append([]string{"env", "update"}, verbosity...), "-n", "dep_env", "-f", filepath.Join(c.Stager.BuildDir(), "environment.yml"))
+	args := append(append([]string{"env", "update"}, verbosity...), "-n", "gtstext", "-f", filepath.Join(c.Stager.BuildDir(), "environment.yml"))
 	c.Log.Debug("Run Conda: %s %s", filepath.Join(condaHome, "bin", "conda"), strings.Join(args, " "))
 	if err := c.Command.Execute("/", indentWriter(os.Stdout), indentWriter(os.Stderr), filepath.Join(condaHome, "bin", "conda"), args...); err != nil {
 		return fmt.Errorf("Could not run conda env update: %v", err)
@@ -141,7 +141,7 @@ func (c *Conda) UpdateAndClean() error {
 
 func (c *Conda) ProfileD() string {
 	return fmt.Sprintf(`grep -rlI %s $DEPS_DIR/%s/conda | xargs sed -i -e "s|%s|$DEPS_DIR/%s|g"
-source activate dep_env
+source activate gtstext
 `, c.Stager.DepDir(), c.Stager.DepsIdx(), c.Stager.DepDir(), c.Stager.DepsIdx())
 }
 
